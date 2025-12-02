@@ -1,0 +1,21 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: test-web-app
+build:
+  artifacts:
+  - image: test-web-app
+    docker:
+      dockerfile: Dockerfile
+  local:
+    push: false
+    useBuildkit: true
+manifests:
+  rawYaml:
+  - deployment.yaml
+portForward:
+- resourceType: service
+  resourceName: test-web-app-service
+  port: 80
+  localPort: 8080
+  address: 0.0.0.0
